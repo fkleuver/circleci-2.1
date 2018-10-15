@@ -6,6 +6,7 @@
     "commitmsg": "validate-commit-msg",
     "init": "npm ci && npm run bootstrap && npm run build",
     "bootstrap": "lerna bootstrap --ci --hoist",
+    "postinstall": "lerna bootstrap --ci --hoist",
     "build": "lerna run build",
     "dev": "lerna run dev --parallel",
     "clean": "rimraf packages/*/dist dist",
