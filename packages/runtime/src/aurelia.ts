@@ -1,4 +1,4 @@
-import { DI, IContainer, IRegistry, PLATFORM, Registration } from '@aurelia/kernel';
+import { DI, IContainer, IRegistry, PLATFORM, Registration } from '@au-test/kernel';
 import { BindingFlags } from './binding/binding-flags';
 import { Lifecycle, LifecycleFlags } from './templating';
 import { ICustomElement } from './templating/custom-element';

@@ -1,5 +1,5 @@
 {
-  "name": "@aurelia/runtime",
+  "name": "@au-test/runtime",
   "version": "0.3.0",
   "main": "dist/index.umd.js",
   "module": "dist/index.es6.js",
@@ -43,7 +43,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@aurelia/kernel": "0.3.0"
+    "@au-test/kernel": "0.3.0"
   },
   "devDependencies": {
     "@types/chai": "^4.1.4",

@@ -6,7 +6,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 <a name="0.3.0"></a>
 # 0.3.0 (2018-10-12)
 
-**Note:** Version bump only for package @aurelia/router
+**Note:** Version bump only for package @au-test/router
 
 <a name="0.2.0"></a>
 # 0.2.0 (2018-09-18)

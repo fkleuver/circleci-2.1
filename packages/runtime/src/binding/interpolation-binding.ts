@@ -1,4 +1,4 @@
-import { IServiceLocator } from '@aurelia/kernel';
+import { IServiceLocator } from '@au-test/kernel';
 import { BindingFlags, IExpression, IScope } from '.';
 import { Interpolation } from './ast';
 import { IBinding, IBindingTarget } from './binding';

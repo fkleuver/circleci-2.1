@@ -1,4 +1,4 @@
-import { Decoratable, Decorated, IIndexable, Writable } from '@aurelia/kernel';
+import { Decoratable, Decorated, IIndexable, Writable } from '@au-test/kernel';
 import { IBinding, IBindingTargetObserver, IObserverLocator, IPropertySubscriber, StrictAny } from '.';
 
 // TODO: add connect-queue (or something similar) back in when everything else is working, to improve startup time

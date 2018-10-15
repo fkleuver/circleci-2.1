@@ -1,4 +1,4 @@
-import { IServiceLocator, Reporter } from '@aurelia/kernel';
+import { IServiceLocator, Reporter } from '@au-test/kernel';
 import { IExpression } from './ast';
 import { IBindingTarget } from './binding';
 import { IScope } from './binding-context';

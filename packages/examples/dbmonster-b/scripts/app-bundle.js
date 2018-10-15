@@ -2668,7 +2668,7 @@ define('plugins/requirejs/component',["require", "exports", "../../runtime/templ
             var text = buildMap[moduleName];
             var description = processing_1.createTemplateDescription(text);
             var depsToLoad = processing_1.processImports(description.imports, moduleName);
-            depsToLoad.unshift('@aurelia/runtime');
+            depsToLoad.unshift('@au-test/runtime');
             write("define(\"" + pluginName + "!" + moduleName + "\", [" + depsToLoad.map(function (x) { return "\"" + x + "\""; }).join(',') + "], function() { \n      var Component = arguments[0].Component;\n      var templateSource = {\n        name: '" + processing_1.kebabCase(templateImport.basename) + "',\n        template: '" + processing_1.escape(description.template) + "',\n        build: {\n          required: true,\n          compiler: 'default'\n        },\n        dependencies: Array.prototype.slice.call(arguments, 1)\n      };\n\n      return { default: Component.element(templateSource) };\n    });\n");
         }
     }

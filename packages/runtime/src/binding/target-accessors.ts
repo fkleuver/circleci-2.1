@@ -1,4 +1,4 @@
-import { IIndexable, Primitive } from '@aurelia/kernel';
+import { IIndexable, Primitive } from '@au-test/kernel';
 import { DOM, INode } from '../dom';
 import { IChangeSet } from './change-set';
 import { IBindingTargetAccessor, MutationKind } from './observation';

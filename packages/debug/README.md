@@ -3,19 +3,19 @@
 [![TypeScript](https://img.shields.io/badge/%3C%2F%3E-TypeScript-%230074c1.svg)](http://www.typescriptlang.org/)
 [![CircleCI](https://circleci.com/gh/aurelia/aurelia.svg?style=shield)](https://circleci.com/gh/aurelia/aurelia)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/5ac0e13689735698073a/test_coverage)](https://codeclimate.com/github/aurelia/aurelia/test_coverage)
-[![npm](https://img.shields.io/npm/v/@aurelia/debug.svg?maxAge=3600)](https://www.npmjs.com/package/@aurelia/debug)
-# @aurelia/debug
+[![npm](https://img.shields.io/npm/v/@au-test/debug.svg?maxAge=3600)](https://www.npmjs.com/package/@au-test/debug)
+# @au-test/debug
 
 ## Installing
 
 For the latest stable version:
 
 ```bash
-npm install --save @aurelia/debug
+npm install --save @au-test/debug
 ```
 
 For our nightly builds:
 
 ```bash
-npm install --save @aurelia/debug@dev
+npm install --save @au-test/debug@dev
 ```

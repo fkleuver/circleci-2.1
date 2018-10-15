@@ -1,4 +1,4 @@
-import { BindingContext as RuntimeContext, IScope } from '@aurelia/runtime';
+import { BindingContext as RuntimeContext, IScope } from '@au-test/runtime';
 
 export const BindingContext = {
   ...RuntimeContext,

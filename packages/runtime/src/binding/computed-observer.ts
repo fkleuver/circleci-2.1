@@ -1,4 +1,4 @@
-import { IIndexable, PLATFORM, Primitive, Reporter } from '@aurelia/kernel';
+import { IIndexable, PLATFORM, Primitive, Reporter } from '@au-test/kernel';
 import { BindingFlags } from './binding-flags';
 import { IChangeSet } from './change-set';
 import { IDirtyChecker } from './dirty-checker';

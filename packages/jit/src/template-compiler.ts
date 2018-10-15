@@ -1,4 +1,4 @@
-import { inject, PLATFORM } from '@aurelia/kernel';
+import { inject, PLATFORM } from '@au-test/kernel';
 import {
   BindingMode,
   BindingType,
@@ -11,7 +11,7 @@ import {
   TargetedInstructionType,
   TemplateDefinition,
   ViewCompileFlags
-} from '@aurelia/runtime';
+} from '@au-test/runtime';
 import { IAttributeParser } from './attribute-parser';
 import {  IElementParser, NodeType } from './element-parser';
 import {

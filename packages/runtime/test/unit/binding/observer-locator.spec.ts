@@ -1,9 +1,9 @@
 import { ObserverLocator, IChangeSet, IEventManager, IDirtyChecker, ISVGAnalyzer, DataAttributeAccessor, PrimitiveObserver, ClassAttributeAccessor, StyleAttributeAccessor, SelectValueObserver, ValueAttributeObserver, CheckedObserver, XLinkAttributeAccessor, DirtyCheckProperty, CustomSetterObserver, SetterObserver, CollectionLengthObserver, PropertyAccessor, ElementPropertyAccessor } from '../../../src/index';
 import { expect } from 'chai';
-import { DI } from '@aurelia/kernel';
+import { DI } from '@au-test/kernel';
 import { _, createElement } from '../util';
 import { spy } from 'sinon';
-import { Reporter } from '@aurelia/kernel';
+import { Reporter } from '@au-test/kernel';
 
 describe('ObserverLocator', () => {
   function setup() {

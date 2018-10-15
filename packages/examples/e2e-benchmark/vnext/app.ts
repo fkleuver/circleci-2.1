@@ -1,4 +1,4 @@
-import { customElement, IChangeSet } from '@aurelia/runtime';
+import { customElement, IChangeSet } from '@au-test/runtime';
 import { Instrumenter } from './instrumenter';
 declare var instrumenter: Instrumenter;
 

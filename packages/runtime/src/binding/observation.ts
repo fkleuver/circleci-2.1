@@ -1,4 +1,4 @@
-import { IDisposable, IIndexable } from '@aurelia/kernel';
+import { IDisposable, IIndexable } from '@au-test/kernel';
 import { INode } from '../dom';
 import { IScope } from './binding-context';
 import { BindingFlags } from './binding-flags';

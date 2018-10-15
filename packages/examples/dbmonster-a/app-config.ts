@@ -1,4 +1,4 @@
-import { ITemplateSource, TargetedInstructionType, BindingMode } from '@aurelia/runtime';
+import { ITemplateSource, TargetedInstructionType, BindingMode } from '@au-test/runtime';
 
 //this object is built up during compilation
 export const appConfig: ITemplateSource = {

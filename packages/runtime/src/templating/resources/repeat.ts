@@ -1,4 +1,4 @@
-import { inject } from '@aurelia/kernel';
+import { inject } from '@au-test/kernel';
 import { Binding, BindingContext, BindingFlags, CollectionObserver, ForOfStatement, getCollectionObserver, IBatchedCollectionSubscriber, IChangeSet, IObservedArray, IScope, ObservedCollection, SetterObserver, Scope } from '../../binding';
 import { INode, IRenderLocation } from '../../dom';
 import { bindable } from '../bindable';

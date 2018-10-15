@@ -1,4 +1,4 @@
-import { customElement, bindable } from '@aurelia/runtime';
+import { customElement, bindable } from '@au-test/runtime';
 import { State } from './state';
 import view from './pythagoras.html';
 

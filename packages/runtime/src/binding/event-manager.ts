@@ -1,4 +1,4 @@
-import { DI, IDisposable } from '@aurelia/kernel';
+import { DI, IDisposable } from '@au-test/kernel';
 import { DOM, INode } from '../dom';
 
 export interface IEventWithStandardPropagation extends Event {

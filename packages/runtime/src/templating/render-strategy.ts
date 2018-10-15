@@ -1,4 +1,4 @@
-import { Constructable, IContainer, Registration, Writable } from '@aurelia/kernel';
+import { Constructable, IContainer, Registration, Writable } from '@au-test/kernel';
 import { IResourceKind, IResourceType } from '../resource';
 import { IRenderStrategyInstruction } from './instructions';
 import { IRenderable } from './renderable';

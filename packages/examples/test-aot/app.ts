@@ -1,5 +1,5 @@
 import { appConfig } from './app-config'; //added by the compiler
-import { customElement } from '@aurelia/runtime';
+import { customElement } from '@au-test/runtime';
 
 class Todo {
   done = false;

@@ -40,7 +40,7 @@ export default {
       path: join(path, 'CHANGELOG.md')
     };
     const src = join(path, 'src');
-    const scopedName = `@aurelia/${name}`;
+    const scopedName = `@au-test/${name}`;
     const coverage = join(rootPath, 'coverage', name);
     const jsName = PLATFORM.camelCase(name);
     const namespace = `au`;

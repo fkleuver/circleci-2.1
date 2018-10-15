@@ -6,7 +6,7 @@ import {
   PLATFORM,
   Registration,
   Writable
-} from '@aurelia/kernel';
+} from '@au-test/kernel';
 import { IScope } from '../binding/binding-context';
 import { BindingFlags } from '../binding/binding-flags';
 import { BindingMode } from '../binding/binding-mode';

@@ -1,4 +1,4 @@
-import { IContainer, IDisposable, Immutable, ImmutableArray, IResolver, IServiceLocator, PLATFORM, Reporter } from '@aurelia/kernel';
+import { IContainer, IDisposable, Immutable, ImmutableArray, IResolver, IServiceLocator, PLATFORM, Reporter } from '@au-test/kernel';
 import { DOM, INode, IRenderLocation } from '../dom';
 import { ITargetedInstruction, TemplateDefinition, TemplatePartDefinitions } from './instructions';
 import { IRenderable } from './renderable';

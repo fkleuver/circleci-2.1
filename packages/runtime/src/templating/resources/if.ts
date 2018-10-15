@@ -1,4 +1,4 @@
-import { inject } from '@aurelia/kernel';
+import { inject } from '@au-test/kernel';
 import { BindingFlags } from '../../binding/binding-flags';
 import { DOM, INode, IRenderLocation } from '../../dom';
 import { bindable } from '../bindable';

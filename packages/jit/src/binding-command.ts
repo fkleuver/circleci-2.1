@@ -1,5 +1,5 @@
-import { Constructable, IContainer, Registration, Writable } from '@aurelia/kernel';
-import { BindingType, IExpressionParser, IResourceKind, IResourceType, ITemplateSource, TargetedInstruction } from '@aurelia/runtime';
+import { Constructable, IContainer, Registration, Writable } from '@au-test/kernel';
+import { BindingType, IExpressionParser, IResourceKind, IResourceType, ITemplateSource, TargetedInstruction } from '@au-test/runtime';
 import {
   CallBindingInstruction,
   CaptureBindingInstruction,

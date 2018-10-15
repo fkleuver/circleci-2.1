@@ -1,4 +1,4 @@
-import { inject } from '@aurelia/kernel';
+import { inject } from '@au-test/kernel';
 import { BindingContext, IScope, Scope } from '../../binding/binding-context';
 import { BindingFlags } from '../../binding/binding-flags';
 import { IRenderLocation } from '../../dom';

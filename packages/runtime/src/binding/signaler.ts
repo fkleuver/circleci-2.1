@@ -1,4 +1,4 @@
-import { DI, Immutable } from '@aurelia/kernel';
+import { DI, Immutable } from '@au-test/kernel';
 import { BindingFlags } from './binding-flags';
 import { IPropertySubscriber } from './observation';
 

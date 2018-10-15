@@ -1,4 +1,4 @@
-import * as kernel from '@aurelia/kernel';
-import * as runtime from '@aurelia/runtime';
+import * as kernel from '@au-test/kernel';
+import * as runtime from '@au-test/runtime';
 import * as jit from './index';
 export { kernel, runtime, jit };

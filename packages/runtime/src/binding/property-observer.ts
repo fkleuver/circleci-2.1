@@ -1,4 +1,4 @@
-import { Reporter } from '@aurelia/kernel';
+import { Reporter } from '@au-test/kernel';
 import { BindingFlags } from './binding-flags';
 import { IPropertySubscriber, MutationKind, PropertyObserver } from './observation';
 import { subscriberCollection } from './subscriber-collection';

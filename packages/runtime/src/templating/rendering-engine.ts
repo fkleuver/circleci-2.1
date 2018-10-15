@@ -1,4 +1,4 @@
-import { all, DI, IContainer, Immutable, inject, PLATFORM, Reporter } from '@aurelia/kernel';
+import { all, DI, IContainer, Immutable, inject, PLATFORM, Reporter } from '@au-test/kernel';
 import { IChangeSet } from '../binding/change-set';
 import { IEventManager } from '../binding/event-manager';
 import { IExpressionParser } from '../binding/expression-parser';

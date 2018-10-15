@@ -1,5 +1,5 @@
 // tslint:disable:no-non-null-assertion
-import { IContainer, IRegistry, Reporter } from '@aurelia/kernel';
+import { IContainer, IRegistry, Reporter } from '@au-test/kernel';
 import {
   AccessKeyed, AccessMember, AccessScope, AccessThis,
   ArrayBindingPattern, ArrayLiteral, Assign, Binary,
@@ -10,7 +10,7 @@ import {
   IsBinary, IsBindingBehavior, IsConditional,
   IsExpressionOrStatement, IsLeftHandSide, IsPrimary, IsUnary,
   IsValueConverter, ObjectBindingPattern, ObjectLiteral, PrimitiveLiteral, TaggedTemplate, Template, Unary, UnaryOperator, ValueConverter
-} from '@aurelia/runtime';
+} from '@au-test/runtime';
 import { Access, Char, Precedence, Token, unescapeCode } from './common';
 
 export const ParserRegistration: IRegistry = {

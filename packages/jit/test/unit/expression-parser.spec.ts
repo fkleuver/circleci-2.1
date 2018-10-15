@@ -9,7 +9,7 @@ import { expect } from 'chai';
 import { parseCore, parse,  ParserState, Access, Precedence } from '../../../jit/src'
 import { verifyASTEqual, eachCartesianJoinFactory } from './util';
 import { eachCartesianJoin } from '../../../../scripts/test-lib';
-import { ExpressionKind } from '@aurelia/runtime';
+import { ExpressionKind } from '@au-test/runtime';
 
 
 const binaryMultiplicative: BinaryOperator[] = ['*', '%', '/'];

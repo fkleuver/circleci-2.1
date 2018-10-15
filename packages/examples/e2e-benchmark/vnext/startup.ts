@@ -1,6 +1,6 @@
-import { BasicConfiguration } from '@aurelia/jit';
-import { DI } from '@aurelia/kernel';
-import { Aurelia, IChangeSet } from '@aurelia/runtime';
+import { BasicConfiguration } from '@au-test/jit';
+import { DI } from '@au-test/kernel';
+import { Aurelia, IChangeSet } from '@au-test/runtime';
 import { App } from './app';
 import { Instrumenter } from './instrumenter';
 declare var instrumenter: Instrumenter;

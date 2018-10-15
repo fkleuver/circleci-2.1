@@ -1,4 +1,4 @@
-import { PLATFORM } from '@aurelia/kernel';
+import { PLATFORM } from '@au-test/kernel';
 import { IScope } from '../../binding/binding-context';
 import { BindingFlags } from '../../binding/binding-flags';
 import { INode } from '../../dom';

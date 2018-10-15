@@ -1,4 +1,4 @@
-import { DI, IIndexable, inject, Primitive, Reporter } from '@aurelia/kernel';
+import { DI, IIndexable, inject, Primitive, Reporter } from '@au-test/kernel';
 import { DOM } from '../dom';
 import { getArrayObserver } from './array-observer';
 import { IBindingContext, IOverrideContext } from './binding-context';

@@ -1,4 +1,4 @@
-import { IIndexable, Primitive } from '@aurelia/kernel';
+import { IIndexable, Primitive } from '@au-test/kernel';
 // tslint:disable:no-reserved-keywords
 import { nativePush, nativeSplice } from './array-observer';
 import { BindingFlags } from './binding-flags';

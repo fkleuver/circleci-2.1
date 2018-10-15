@@ -1,5 +1,5 @@
-import { BasicConfiguration } from '@aurelia/jit';
-import { Aurelia } from '@aurelia/runtime';
+import { BasicConfiguration } from '@au-test/jit';
+import { Aurelia } from '@au-test/runtime';
 import { App } from './app';
 
 window['au'] = new Aurelia()

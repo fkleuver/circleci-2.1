@@ -1,4 +1,4 @@
-import { DI, PLATFORM, Reporter } from '@aurelia/kernel';
+import { DI, PLATFORM, Reporter } from '@au-test/kernel';
 import { AccessMember, AccessScope, CallMember, CallScope, ExpressionKind, ForOfStatement, Interpolation, IsBindingBehavior, PrimitiveLiteral } from './ast';
 
 export interface IExpressionParser {

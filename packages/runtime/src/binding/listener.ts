@@ -1,4 +1,4 @@
-import { IDisposable, IServiceLocator } from '@aurelia/kernel';
+import { IDisposable, IServiceLocator } from '@au-test/kernel';
 import { INode } from '../dom';
 import { hasBind, hasUnbind, IsBindingBehavior, StrictAny } from './ast';
 import { IBinding } from './binding';

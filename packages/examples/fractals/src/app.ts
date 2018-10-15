@@ -1,5 +1,5 @@
 import { State } from './state';
-import { customElement, ICustomElement } from '@aurelia/runtime';
+import { customElement, ICustomElement } from '@au-test/runtime';
 import view from './app.html';
 
 export interface App extends ICustomElement {}

@@ -1,5 +1,5 @@
 
-import { customElement } from '@aurelia/runtime';
+import { customElement } from '@au-test/runtime';
 import * as view from 'text!./app.html';
 
 @customElement({

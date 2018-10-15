@@ -19,7 +19,7 @@ export function getCurrentVersion() {
 }
 
 export async function updateDependencyVersions(newVersion: string) {
-  const aureliaRegExp = /^@aurelia/
+  const aureliaRegExp = /^@au-test/
   for (const { name, scopedName } of project.packages) {
     log(`updating dependencies for ${c.magentaBright(scopedName)}`);
     const pkg = await loadPackageJson('packages', name);

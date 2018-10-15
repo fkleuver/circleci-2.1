@@ -1,4 +1,4 @@
-import { inject, Reporter } from '@aurelia/kernel';
+import { inject, Reporter } from '@au-test/kernel';
 import { Binding } from '../binding';
 import { bindingBehavior } from '../binding-behavior';
 import { IScope } from '../binding-context';

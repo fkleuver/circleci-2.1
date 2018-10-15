@@ -1,6 +1,6 @@
 /**
  */
-import { DI } from '@aurelia/kernel';
+import { DI } from '@au-test/kernel';
 import { IScope } from '../binding/binding-context';
 import { IBindScope } from '../binding/observation';
 import { INodeSequence } from '../dom';

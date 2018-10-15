@@ -1,5 +1,5 @@
 {
-  "name": "@aurelia/kernel",
+  "name": "@au-test/kernel",
   "version": "0.3.0",
   "main": "dist/index.umd.js",
   "module": "dist/index.es6.js",

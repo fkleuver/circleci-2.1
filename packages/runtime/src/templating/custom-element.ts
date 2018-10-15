@@ -7,7 +7,7 @@ import {
   Registration,
   Reporter,
   Writable
-} from '@aurelia/kernel';
+} from '@au-test/kernel';
 import { BindingContext, Scope } from '../binding/binding-context';
 import { BindingFlags } from '../binding/binding-flags';
 import { DOM, ICustomElementHost, INode, INodeSequence, IRenderLocation } from '../dom';

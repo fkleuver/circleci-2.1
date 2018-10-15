@@ -1,5 +1,5 @@
-import { AccessScope, IExpression, AccessMember, IExpressionParser,Repeat, ForOfStatement, BindingIdentifier  } from '@aurelia/runtime';
-import { IContainer } from '@aurelia/kernel';
+import { AccessScope, IExpression, AccessMember, IExpressionParser,Repeat, ForOfStatement, BindingIdentifier  } from '@au-test/runtime';
+import { IContainer } from '@au-test/kernel';
 
 const expressionCache: Record<string, IExpression> = {
   databases: new ForOfStatement(new BindingIdentifier('db'), new AccessScope('databases')),

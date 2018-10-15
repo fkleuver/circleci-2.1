@@ -1,5 +1,5 @@
 import { appConfig } from './app-config'; //added by the compiler
-import { customElement } from '@aurelia/runtime';
+import { customElement } from '@au-test/runtime';
 declare var ENV, Monitoring;
 
 @customElement(appConfig) //added by the compiler

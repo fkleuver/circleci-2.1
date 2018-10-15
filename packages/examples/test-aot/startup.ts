@@ -1,4 +1,4 @@
-import { Aurelia } from '@aurelia/runtime';
+import { Aurelia } from '@au-test/runtime';
 import { App } from './app';
 import { GeneratedConfiguration } from './generated-configuration';
 import { DebugConfiguration } from '../debug/configuration';

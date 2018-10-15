@@ -1,4 +1,4 @@
-import { IIndexable, Primitive } from '@aurelia/kernel';
+import { IIndexable, Primitive } from '@au-test/kernel';
 import { BindingFlags } from './binding-flags';
 import { IBatchedCollectionSubscriber, IBatchedSubscriberCollection, IndexMap, IPropertySubscriber, ISubscriberCollection, MutationKind, MutationKindToBatchedSubscriber, MutationKindToSubscriber, SubscriberFlags } from './observation';
 

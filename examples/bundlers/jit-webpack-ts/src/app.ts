@@ -1,4 +1,4 @@
-import { customElement } from '@aurelia/runtime';
+import { customElement } from '@au-test/runtime';
 import view from './app.html';
 
 @customElement({

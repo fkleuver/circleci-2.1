@@ -1,4 +1,4 @@
-import { DI, Reporter } from '@aurelia/kernel';
+import { DI, Reporter } from '@au-test/kernel';
 import { IScope } from '../binding/binding-context';
 import { BindingFlags } from '../binding/binding-flags';
 import { IBindScope } from '../binding/observation';

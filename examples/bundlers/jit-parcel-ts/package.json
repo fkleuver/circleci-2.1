@@ -7,7 +7,7 @@
     "serve": "http-server -c-1 -p 9000 dist"
   },
   "dependencies": {
-    "@aurelia/jit": "dev"
+    "@au-test/jit": "dev"
   },
   "devDependencies": {
     "@types/node": "^8.10.22",

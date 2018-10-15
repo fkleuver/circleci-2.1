@@ -1,4 +1,4 @@
-import { Omit, PLATFORM } from '@aurelia/kernel';
+import { Omit, PLATFORM } from '@au-test/kernel';
 import { BindingMode } from '../binding/binding-mode';
 
 export type BindableSource = Omit<IBindableDescription, 'property'>;

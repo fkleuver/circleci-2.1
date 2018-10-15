@@ -7,10 +7,10 @@
     "start": "http-server -c-1 -p 3000 ."
   },
   "dependencies": {
-    "@aurelia/debug": "../../debug",
-    "@aurelia/jit": "../../jit",
-    "@aurelia/kernel": "../../kernel",
-    "@aurelia/runtime": "../../runtime"
+    "@au-test/debug": "../../debug",
+    "@au-test/jit": "../../jit",
+    "@au-test/kernel": "../../kernel",
+    "@au-test/runtime": "../../runtime"
   },
   "devDependencies": {
     "@types/node": "^8.10.22",

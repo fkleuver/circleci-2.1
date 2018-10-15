@@ -1,4 +1,4 @@
-import { IContainer, Reporter as RuntimeReporter } from '@aurelia/kernel';
+import { IContainer, Reporter as RuntimeReporter } from '@au-test/kernel';
 import { enableImprovedExpressionDebugging } from './binding/unparser';
 import { Reporter } from './reporter';
 

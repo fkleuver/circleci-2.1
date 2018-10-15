@@ -1,4 +1,4 @@
-import { customElement } from '@aurelia/runtime'; //added by the compiler
+import { customElement } from '@au-test/runtime'; //added by the compiler
 import { nameTagConfig } from './name-tag-config'; //added by the compiler
 
 @customElement(nameTagConfig) //added by the compiler

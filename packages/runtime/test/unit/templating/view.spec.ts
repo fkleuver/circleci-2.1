@@ -1,5 +1,5 @@
 import { spy } from 'sinon';
-import { PLATFORM } from '@aurelia/kernel';
+import { PLATFORM } from '@au-test/kernel';
 import { NodeSequence } from './../../../src/dom';
 import { ObserverLocator } from './../../../src/binding/observer-locator';
 import {

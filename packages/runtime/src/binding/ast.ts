@@ -1,4 +1,4 @@
-import { IIndexable, IServiceLocator, PLATFORM, Reporter } from '@aurelia/kernel';
+import { IIndexable, IServiceLocator, PLATFORM, Reporter } from '@au-test/kernel';
 import { IBinding } from './binding';
 import { BindingBehaviorResource } from './binding-behavior';
 import { BindingContext, IScope } from './binding-context';

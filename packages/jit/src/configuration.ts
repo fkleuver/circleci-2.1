@@ -1,4 +1,4 @@
-import { IContainer, Registration } from '@aurelia/kernel';
+import { IContainer, Registration } from '@au-test/kernel';
 import {
   AttrBindingBehavior,
   Compose,
@@ -18,7 +18,7 @@ import {
   TwoWayBindingBehavior,
   UpdateTriggerBindingBehavior,
   With
-} from '@aurelia/runtime';
+} from '@au-test/runtime';
 import {
   CallBindingCommand,
   CaptureBindingCommand,

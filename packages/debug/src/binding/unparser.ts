@@ -1,5 +1,5 @@
-import { Unwrap } from '@aurelia/kernel';
-import * as AST from '@aurelia/runtime';
+import { Unwrap } from '@au-test/kernel';
+import * as AST from '@au-test/runtime';
 
 const astTypeMap = [
   { type: AST.AccessKeyed, name: 'AccessKeyed' },

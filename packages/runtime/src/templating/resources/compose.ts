@@ -1,4 +1,4 @@
-import { Constructable, Immutable, inject } from '@aurelia/kernel';
+import { Constructable, Immutable, inject } from '@au-test/kernel';
 import { BindingFlags } from '../../binding/binding-flags';
 import { INode } from '../../dom';
 import { bindable } from '../bindable';

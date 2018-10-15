@@ -1,4 +1,4 @@
-import { customElement } from '@aurelia/runtime';
+import { customElement } from '@au-test/runtime';
 
 export interface IOption {
   value: number;

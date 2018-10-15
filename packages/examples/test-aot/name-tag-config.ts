@@ -1,5 +1,5 @@
-import { ITemplateSource, TargetedInstructionType, BindingMode } from '@aurelia/runtime';
-import { DelegationStrategy } from '@aurelia/runtime';
+import { ITemplateSource, TargetedInstructionType, BindingMode } from '@au-test/runtime';
+import { DelegationStrategy } from '@au-test/runtime';
 
 //this object is built up during compilation
 export const nameTagConfig: ITemplateSource = {

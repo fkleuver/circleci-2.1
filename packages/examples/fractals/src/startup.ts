@@ -1,8 +1,8 @@
-import { BasicConfiguration } from '@aurelia/jit';
-import { Aurelia, ISVGAnalyzer } from '@aurelia/runtime';
+import { BasicConfiguration } from '@au-test/jit';
+import { Aurelia, ISVGAnalyzer } from '@au-test/runtime';
 import { App } from './app';
-import { DI, IContainer } from '@aurelia/kernel';
-import { register } from '@aurelia/plugin-svg';
+import { DI, IContainer } from '@au-test/kernel';
+import { register } from '@au-test/plugin-svg';
 import { State } from './state';
 import { Pythagoras } from './pythagoras';
 

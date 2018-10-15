@@ -1,4 +1,4 @@
-import { Immutable, Reporter } from '@aurelia/kernel';
+import { Immutable, Reporter } from '@au-test/kernel';
 import { Interpolation } from '../binding';
 import { Binding } from '../binding/binding';
 import { BindingMode } from '../binding/binding-mode';

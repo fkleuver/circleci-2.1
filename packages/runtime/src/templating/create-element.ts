@@ -1,4 +1,4 @@
-import { Constructable, PLATFORM } from '@aurelia/kernel';
+import { Constructable, PLATFORM } from '@au-test/kernel';
 import { DOM, INode } from '../dom';
 import { ICustomElementType } from './custom-element';
 import {

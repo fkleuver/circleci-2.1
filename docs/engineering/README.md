@@ -56,7 +56,7 @@ npm run publish:local # Runs npm pack for all packages
 
 When running these commands from inside the top-level folder, they will call lerna to run the respective command for all packages. When running them from inside a specific package folder, the command will run for just that package.
 
-You can also run a command for only a specific page from the top-level folder by using --scope, e.g. `npm run test:watch -- --scope=@aurelia/runtime`
+You can also run a command for only a specific page from the top-level folder by using --scope, e.g. `npm run test:watch -- --scope=@au-test/runtime`
 
 A few commands are only available from inside a specific package folder:
 

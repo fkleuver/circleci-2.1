@@ -1,4 +1,4 @@
-import { IIndexable, Reporter } from '@aurelia/kernel';
+import { IIndexable, Reporter } from '@au-test/kernel';
 import { StrictPrimitive } from './ast';
 import { IBindScope, ObservedCollection, PropertyObserver } from './observation';
 import { SetterObserver } from './property-observation';

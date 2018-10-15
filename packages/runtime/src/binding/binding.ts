@@ -1,4 +1,4 @@
-import { IServiceLocator, Reporter } from '@aurelia/kernel';
+import { IServiceLocator, Reporter } from '@au-test/kernel';
 import { ExpressionKind, ForOfStatement, hasBind, hasUnbind, IsBindingBehavior } from './ast';
 import { IScope } from './binding-context';
 import { BindingFlags } from './binding-flags';

@@ -1,4 +1,4 @@
-import { IServiceLocator } from '@aurelia/kernel';
+import { IServiceLocator } from '@au-test/kernel';
 import { hasBind, hasUnbind, IsBindingBehavior, StrictAny } from './ast';
 import { IBinding, IBindingTarget } from './binding';
 import { IScope } from './binding-context';

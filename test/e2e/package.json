@@ -14,9 +14,9 @@
     "allure:post": "ts-node ../../scripts/post-allure.ts"
   },
   "dependencies": {
-    "@aurelia/jit": "../../packages/jit",
-    "@aurelia/kernel": "../../packages/kernel",
-    "@aurelia/runtime": "../../packages/runtime"
+    "@au-test/jit": "../../packages/jit",
+    "@au-test/kernel": "../../packages/kernel",
+    "@au-test/runtime": "../../packages/runtime"
   },
   "devDependencies": {
     "@types/chai": "^4.1.4",

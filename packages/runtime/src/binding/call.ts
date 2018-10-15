@@ -1,4 +1,4 @@
-import { IIndexable, IServiceLocator, Primitive } from '@aurelia/kernel';
+import { IIndexable, IServiceLocator, Primitive } from '@au-test/kernel';
 import { INode } from '../dom';
 import { hasBind, hasUnbind, IsBindingBehavior, StrictAny } from './ast';
 import { IScope } from './binding-context';

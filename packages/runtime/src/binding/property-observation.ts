@@ -1,4 +1,4 @@
-import { IIndexable, PLATFORM, Primitive } from '@aurelia/kernel';
+import { IIndexable, PLATFORM, Primitive } from '@au-test/kernel';
 import { BindingFlags } from './binding-flags';
 import { IAccessor, IPropertyObserver, IPropertySubscriber, ISubscribable, MutationKind } from './observation';
 import { propertyObserver } from './property-observer';

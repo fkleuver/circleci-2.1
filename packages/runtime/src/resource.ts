@@ -1,4 +1,4 @@
-import { Constructable, Immutable, IRegistry } from '@aurelia/kernel';
+import { Constructable, Immutable, IRegistry } from '@au-test/kernel';
 
 export interface IResourceKind<TSource, TType extends IResourceType<TSource> = IResourceType<TSource>> {
   readonly name: string;

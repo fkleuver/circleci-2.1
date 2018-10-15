@@ -23,7 +23,7 @@ import {
   ITextBindingInstruction,
   TargetedInstruction,
   TargetedInstructionType
-} from '@aurelia/runtime';
+} from '@au-test/runtime';
 
 // tslint:disable:no-reserved-keywords
 // tslint:disable:no-any

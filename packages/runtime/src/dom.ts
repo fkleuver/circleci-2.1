@@ -1,4 +1,4 @@
-import { DI, IContainer, IResolver, PLATFORM } from '@aurelia/kernel';
+import { DI, IContainer, IResolver, PLATFORM } from '@au-test/kernel';
 import { ICustomElement } from '.';
 
 export interface INodeLike {

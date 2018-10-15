@@ -1,4 +1,4 @@
-import { CustomElementResource } from '@aurelia/runtime';
+import { CustomElementResource } from '@au-test/runtime';
 import { createTemplateDescription, escape, kebabCase, loadFromFile, parseImport, processImports } from './processing';
 
 const buildMap = {};
@@ -44,7 +44,7 @@ export function write(pluginName: string, moduleName: string, write, config) {
     const description = createTemplateDescription(text);
     const depsToLoad = processImports(description.imports, moduleName);
 
-    depsToLoad.unshift('@aurelia/runtime');
+    depsToLoad.unshift('@au-test/runtime');
 
     write(`define("${pluginName}!${moduleName}", [${depsToLoad.map(x => `"${x}"`).join(',')}], function() {
       var Component = arguments[0].Component;

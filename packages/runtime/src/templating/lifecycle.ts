@@ -1,4 +1,4 @@
-import { Immutable, Omit } from '@aurelia/kernel';
+import { Immutable, Omit } from '@au-test/kernel';
 import { ICustomElementType, IHydrateElementInstruction, IRenderable, IRenderingEngine, ITemplate } from '.';
 import { BindingFlags, IBindScope } from '../binding';
 import { INode, INodeSequence } from '../dom';

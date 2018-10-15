@@ -1,4 +1,4 @@
-import { DI } from '@aurelia/kernel';
+import { DI } from '@au-test/kernel';
 import { Char } from './common';
 
 export class AttrSyntax {

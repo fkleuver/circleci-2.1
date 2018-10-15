@@ -1,4 +1,4 @@
-import { DI } from '@aurelia/kernel';
+import { DI } from '@au-test/kernel';
 import { IResourceDescriptions } from '../resource';
 import { ITemplateSource, TemplateDefinition } from './instructions';
 import { ViewCompileFlags } from './view-compile-flags';
