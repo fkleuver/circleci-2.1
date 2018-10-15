@@ -147,7 +147,7 @@ commands:
             git add packages/\*/dist/* dist --force
       - run:
           name: "Commit dist folders"
-          command: git commit -m "<< parameters.message >>"
+          command: git commit --allow-empty -m "<< parameters.message >>"
 
   do_git_merge:
     description: "Git merge"
