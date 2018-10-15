@@ -2,12 +2,12 @@ version: 2.1
 
 
 # - Scalar variables -
-scalar_1: &node_modules_cache_key aurelia-{{ .Branch }}-{{ checksum "package.json" }}-{{ checksum "package-lock.json" }}
+scalar-1: &node_modules_cache_key aurelia-{{ .Branch }}-{{ checksum "package.json" }}-{{ checksum "package-lock.json" }}
 
-scalar_2: &working_dir ~/repo
+scalar-2: &working_dir ~/repo
 
 # - Map variables -
-map_1: &package_globs
+map-1: &package_globs
   paths:
     - dist
     - packages/*/dist
@@ -96,6 +96,41 @@ commands:
           name: "Lint packages"
           command: npm run lint
 
+  do_set_git_config:
+    description: "Set git config"
+    parameters:
+      user_email:
+        type: string
+        default: "fred@avurad.nl"
+      user_name:
+        type: string
+        default: "fkleuver"
+    steps:
+      - run:
+          name: "Set git config"
+          command: |
+            git config --global user.email "<< parameters.user_email >>"
+            git config --global user.name "<< parameters.user_name >>"
+
+  do_merge_push:
+    description: "Merge and push"
+    parameters:
+      from:
+        type: string
+        default: "master"
+      to:
+        type: string
+    steps:
+      - run:
+          name: "Checkout << parameters.to >>"
+          command: git checkout << parameters.to >>
+      - run:
+          name: "Merge << parameters.from >> into << parameters.to >>"
+          command: git merge << parameters.from >> --no-ff --no-edit -Xtheirs
+      - run:
+          name: "Push << parameters.to >>"
+          command: git push origin << parameters.to >>
+
 # - Jobs -
 jobs:
 
@@ -129,6 +164,14 @@ jobs:
       - do_bundle_packages
       - last_persist_workspace
 
+  # Requires bundle_packages
+  merge_to_develop:
+    executor: docker-circleci
+    steps:
+      - first_attach_workspace
+      - do_set_git_config
+      - do_merge_push:
+          to: develop
 
   job1:
     machine: true
@@ -141,28 +184,53 @@ jobs:
 
 # - Workflows -
 workflows:
-  lightweight_build_and_test:
+  build_test_dev:
     jobs:
-      - install_root
+      - install_root:
+          filters:
+            branches:
+              ignore:
+                - develop
+                - release
       - build_packages:
           requires:
             - install_root
+          filters:
+            branches:
+              ignore:
+                - develop
+                - release
       - lint_packages:
           requires:
             - install_root
+          filters:
+            branches:
+              ignore:
+                - develop
+                - release
       - bundle_packages:
           requires:
             - build_packages
-
-  wf2:
-    triggers:
-      - schedule:
-          cron: "0 * * * *"
           filters:
             branches:
-              only:
-                - master
+              only: master
+      - merge_to_develop:
+          requires:
+            - lint_packages
+            - bundle_packages
+          filters:
+            branches:
+              only: master
 
-    jobs:
-      - job1:
-          job1p1: "from wf2"
+  # wf2:
+  #   triggers:
+  #     - schedule:
+  #         cron: "0 * * * *"
+  #         filters:
+  #           branches:
+  #             only:
+  #               - master
+
+  #   jobs:
+  #     - job1:
+  #         job1p1: "from wf2"
