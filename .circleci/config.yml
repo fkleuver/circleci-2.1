@@ -120,10 +120,6 @@ jobs:
   # Must come before any other job
   install_root:
     executor: docker-circleci
-    branches:
-      ignore:
-        - develop
-        - release
     steps:
       - first_npm_install
       - last_save_cache
@@ -131,10 +127,6 @@ jobs:
   # Requires install_root
   build_packages:
     executor: docker-circleci
-    branches:
-      ignore:
-        - develop
-        - release
     steps:
       - first_restore_cache
       - do_build_packages
@@ -143,10 +135,6 @@ jobs:
   # Requires install_root
   lint_packages:
     executor: docker-circleci
-    branches:
-      ignore:
-        - develop
-        - release
     steps:
       - first_restore_cache
       - do_lint_packages
@@ -154,10 +142,6 @@ jobs:
   # Requires build_packages
   bundle_packages:
     executor: docker-circleci
-    branches:
-      ignore:
-        - develop
-        - release
     steps:
       - first_attach_workspace
       - do_bundle_packages
@@ -166,10 +150,6 @@ jobs:
   # Requires bundle_packages
   merge_to_develop:
     executor: docker-circleci
-    branches:
-      ignore:
-        - develop
-        - release
     steps:
       - first_attach_workspace
       - do_merge_push:
@@ -187,31 +167,52 @@ jobs:
 
 # - Workflows -
 workflows:
-  lightweight_build_and_test:
+  build_test_dev:
     jobs:
-      - install_root
+      - install_root:
+          filters:
+            branches:
+              ignore:
+                - develop
+                - release
       - build_packages:
           requires:
             - install_root
+          filters:
+            branches:
+              ignore:
+                - develop
+                - release
       - lint_packages:
           requires:
             - install_root
+          filters:
+            branches:
+              ignore:
+                - develop
+                - release
       - bundle_packages:
           requires:
             - build_packages
+          filters:
+            branches:
+              only: master
       - merge_to_develop:
           requires:
             - bundle_packages
-
-  wf2:
-    triggers:
-      - schedule:
-          cron: "0 * * * *"
           filters:
             branches:
-              only:
-                - master
+              only: master
 
-    jobs:
-      - job1:
-          job1p1: "from wf2"
+  # wf2:
+  #   triggers:
+  #     - schedule:
+  #         cron: "0 * * * *"
+  #         filters:
+  #           branches:
+  #             only:
+  #               - master
+
+  #   jobs:
+  #     - job1:
+  #         job1p1: "from wf2"
