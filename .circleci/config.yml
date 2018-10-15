@@ -112,6 +112,22 @@ commands:
             git config --global user.email "<< parameters.user_email >>"
             git config --global user.name "<< parameters.user_name >>"
 
+  do_git_stash_dist:
+    description: "Stash dist folders"
+    steps:
+      - run:
+          name: "Clean packages"
+          command: ./node_modules/.bin/lerna clean -y
+      - run:
+          name: "Clean dist bloat"
+          command: rm -rf dist/*.map dist/*.ts dist/*/ packages/*/dist/build/**
+      - run:
+          name: "Add dist folders"
+          command: git add packages/\*/dist/* dist --force
+      - run:
+          name: "Stash dist folders"
+          command: git stash
+
   do_git_commit_dist:
     description: "Commit dist folders"
     parameters:
@@ -120,14 +136,14 @@ commands:
         default: "chore(all): add latest build artifacts"
     steps:
       - run:
-          name: "Clean packages"
-          command: ./node_modules/.bin/lerna clean -y
+          name: "Clean existing dist folders"
+          command: rm -rf packages/*/dist dist
       - run:
-          name: "Add package dist folders"
-          command: git add packages/\*/dist/* --force
+          name: "Pop stashed dist folders"
+          command: git stash pop
       - run:
-          name: "Add root dist folder"
-          command: git add dist --force
+          name: "Add dist folders"
+          command: git add packages/\*/dist/* dist --force
       - run:
           name: "Commit dist folders"
           command: git commit -m "<< parameters.message >>"
@@ -200,6 +216,7 @@ jobs:
     steps:
       - first_attach_workspace
       - do_git_set_config
+      - do_git_stash_dist
       - do_git_merge:
           to: << parameters.to >>
       - do_git_commit_dist
