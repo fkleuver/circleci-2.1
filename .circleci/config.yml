@@ -96,12 +96,34 @@ commands:
           name: "Lint packages"
           command: npm run lint
 
+  do_merge_push:
+    description: "Merge and push"
+    parameters:
+      from:
+        type: string
+      to:
+        type: string
+    steps:
+      - run:
+          name: "Checkout << parameters.to >>"
+          command: git checkout << parameters.to >>
+      - run:
+          name: "Merge << parameters.from >> into << parameters.to >>"
+          command: git merge << parameters.from >> --no-ff --no-edit -Xtheirs
+      - run:
+          name: "Push << parameters.to >>"
+          command: git push origin << parameters.to >>
+
 # - Jobs -
 jobs:
 
   # Must come before any other job
   install_root:
     executor: docker-circleci
+    branches:
+      ignore:
+        - develop
+        - release
     steps:
       - first_npm_install
       - last_save_cache
@@ -109,6 +131,10 @@ jobs:
   # Requires install_root
   build_packages:
     executor: docker-circleci
+    branches:
+      ignore:
+        - develop
+        - release
     steps:
       - first_restore_cache
       - do_build_packages
@@ -117,6 +143,10 @@ jobs:
   # Requires install_root
   lint_packages:
     executor: docker-circleci
+    branches:
+      ignore:
+        - develop
+        - release
     steps:
       - first_restore_cache
       - do_lint_packages
@@ -124,11 +154,27 @@ jobs:
   # Requires build_packages
   bundle_packages:
     executor: docker-circleci
+    branches:
+      ignore:
+        - develop
+        - release
     steps:
       - first_attach_workspace
       - do_bundle_packages
       - last_persist_workspace
 
+  # Requires bundle_packages
+  merge_to_develop:
+    executor: docker-circleci
+    branches:
+      ignore:
+        - develop
+        - release
+    steps:
+      - first_attach_workspace
+      - do_merge_push:
+          from: master
+          to: develop
 
   job1:
     machine: true
@@ -153,6 +199,9 @@ workflows:
       - bundle_packages:
           requires:
             - build_packages
+      - merge_to_develop:
+          requires:
+            - bundle_packages
 
   wf2:
     triggers:
