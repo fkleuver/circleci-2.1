@@ -1,6 +1,0 @@
-export * from './binding/index';
-export * from './templating/index';
-export * from './aurelia';
-export * from './dom';
-export * from './resource';
-//# sourceMappingURL=index.d.ts.map
