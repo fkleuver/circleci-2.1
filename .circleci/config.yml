@@ -107,16 +107,15 @@ commands:
     parameters:
       user_email:
         type: string
-        default: "fred@avurad.nl"
       user_name:
         type: string
-        default: "fkleuver"
+        default: "circleci"
     steps:
       - run:
           name: "Set git config"
           command: |
-            git config --global user.email "<< parameters.user_email >>"
-            git config --global user.name "<< parameters.user_name >>"
+            git config --local user.email "<< parameters.user_email >>"
+            git config --local user.name "<< parameters.user_name >>"
 
   do_git_stash_dist:
     description: "Stash dist folders"
