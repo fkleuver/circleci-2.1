@@ -96,11 +96,28 @@ commands:
           name: "Lint packages"
           command: npm run lint
 
+  do_set_git_config:
+    description: "Set git config"
+    parameters:
+      email:
+        type: string
+        default: "fred@avurad.nl"
+      name:
+        type: string
+        default: "fkleuver"
+    steps:
+      - run:
+          name: "Set git config"
+          command: |
+            git config --global user.email "<< parameters.email >>"
+            git config --global user.name "<< parameters.name >>"
+
   do_merge_push:
     description: "Merge and push"
     parameters:
       from:
         type: string
+        default: "master"
       to:
         type: string
     steps:
@@ -152,8 +169,8 @@ jobs:
     executor: docker-circleci
     steps:
       - first_attach_workspace
+      - do_set_git_config
       - do_merge_push:
-          from: master
           to: develop
 
   job1:
@@ -199,6 +216,7 @@ workflows:
               only: master
       - merge_to_develop:
           requires:
+            - lint_packages
             - bundle_packages
           filters:
             branches:
