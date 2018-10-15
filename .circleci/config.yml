@@ -199,7 +199,7 @@ jobs:
         type: string
     steps:
       - first_attach_workspace
-      - do_set_git_config
+      - do_git_set_config
       - do_git_merge:
           to: << parameters.to >>
       - do_git_commit_dist
