@@ -1,12 +1,40 @@
 version: 2.1
 
-jobs:
-  test1:
-    machine: true
+commands:
+  cmd1:
+    parameters:
+      cmd1p1:
+        type: string
+        default: "Default"
     steps:
-      - run: echo "hi"
+      - run: echo  "cmd1p1= << parameters.cmd1p1 >>"
+
+jobs:
+  job1:
+    machine: true
+    parameters:
+      job1p1:
+        type: string
+        default: "Default"
+    steps:
+      - cmd1:
+          cmd1p1: "Overridden"
+      - run: echo  "job1p1= << parameters.job1p1 >>"
 
 workflows:
-  build1:
+  wf1:
     jobs:
-      - test1
+      - job1:
+          job1p1: "from wf1"
+  wf2:
+    triggers:
+      - schedule:
+          cron: "0 * * * *"
+          filters:
+            branches:
+              only:
+                - master
+
+    jobs:
+      - job1:
+          job1p1: "from wf2"
