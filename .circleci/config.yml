@@ -142,6 +142,9 @@ commands:
           name: "Pop stashed dist folders"
           command: git stash pop
       - run:
+          name: "Add dist folders"
+          command: git add packages/\*/dist/* dist --force
+      - run:
           name: "Commit dist folders"
           command: git commit -m "<< parameters.message >>"
 
