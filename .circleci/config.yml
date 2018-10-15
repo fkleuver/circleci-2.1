@@ -119,14 +119,14 @@ commands:
           name: "Clean packages"
           command: ./node_modules/.bin/lerna clean -y
       - run:
-          name: "Add package dist folders"
-          command: git add packages/\*/dist/* --force
+          name: "Clean dist bloat"
+          command: rm -rf dist/*.map dist/*.ts dist/*/ packages/*/dist/build/**
       - run:
-          name: "Add root dist folder"
-          command: git add dist --force
+          name: "Add dist folders"
+          command: git add packages/\*/dist/* dist --force
       - run:
           name: "Stash dist folders"
-          command: git stash"
+          command: git stash
 
   do_git_commit_dist:
     description: "Commit dist folders"
