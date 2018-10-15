@@ -96,7 +96,7 @@ commands:
           name: "Lint packages"
           command: npm run lint
 
-  do_set_git_config:
+  do_git_set_config:
     description: "Set git config"
     parameters:
       user_email:
@@ -112,8 +112,28 @@ commands:
             git config --global user.email "<< parameters.user_email >>"
             git config --global user.name "<< parameters.user_name >>"
 
-  do_merge_push:
-    description: "Merge and push"
+  do_git_commit_dist:
+    description: "Commit dist folders"
+    parameters:
+      message:
+        type: string
+        default: "chore(all): add latest build artifacts"
+    steps:
+      - run:
+          name: "Clean packages"
+          command: ./node_modules/.bin/lerna clean -y
+      - run:
+          name: "Add package dist folders"
+          command: git add packages/\*/dist/* --force
+      - run:
+          name: "Add root dist folder"
+          command: git add dist --force
+      - run:
+          name: "Commit dist folders"
+          command: git commit -m "<< parameters.message >>"
+
+  do_git_merge:
+    description: "Git merge"
     parameters:
       from:
         type: string
@@ -127,6 +147,13 @@ commands:
       - run:
           name: "Merge << parameters.from >> into << parameters.to >>"
           command: git merge << parameters.from >> --no-ff --no-edit -Xtheirs
+
+  do_git_push:
+    description: "Git push"
+    parameters:
+      to:
+        type: string
+    steps:
       - run:
           name: "Push << parameters.to >>"
           command: git push origin << parameters.to >>
@@ -165,13 +192,19 @@ jobs:
       - last_persist_workspace
 
   # Requires bundle_packages
-  merge_to_develop:
+  merge_and_dist:
     executor: docker-circleci
+    parameters:
+      to:
+        type: string
     steps:
       - first_attach_workspace
-      - do_set_git_config
-      - do_merge_push:
-          to: develop
+      - do_git_set_config
+      - do_git_merge:
+          to: << parameters.to >>
+      - do_git_commit_dist
+      - do_git_push:
+          to: << parameters.to >>
 
   job1:
     machine: true
@@ -214,7 +247,8 @@ workflows:
           filters:
             branches:
               only: master
-      - merge_to_develop:
+      - merge_and_dist:
+          to: develop
           requires:
             - lint_packages
             - bundle_packages
