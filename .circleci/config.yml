@@ -13,6 +13,13 @@ map-1: &package_globs
     - packages/*/dist
     - packages/*/node_modules
 
+map-2: &ignore_develop_release
+  filters:
+    branches:
+      ignore:
+        - develop
+        - release
+
 # - Executors -
 executors:
 
@@ -76,11 +83,10 @@ commands:
     description: "Bootstrap and build packages"
     steps:
       - run:
-          name: "Bootstrap packages"
-          command: npm run bootstrap
-      - run:
-          name: "Build packages"
-          command: npm run build
+          name: "Bootstrap and build packages"
+          command: |
+            npm run bootstrap
+            npm run build
 
   do_bundle_packages:
     description: "Bundle packages"
@@ -116,17 +122,15 @@ commands:
     description: "Stash dist folders"
     steps:
       - run:
-          name: "Clean packages"
-          command: ./node_modules/.bin/lerna clean -y
-      - run:
-          name: "Clean dist bloat"
-          command: rm -rf dist/*.map dist/*.ts dist/*/ packages/*/dist/build/**
-      - run:
-          name: "Add dist folders"
-          command: git add packages/\*/dist/* dist --force
+          name: "Cleanup unwanted files"
+          command: |
+            ./node_modules/.bin/lerna clean -y
+            rm -rf dist/*.map dist/*.ts dist/*/ packages/*/dist/build/**
       - run:
           name: "Stash dist folders"
-          command: git stash
+          command: |
+            git add packages/\*/dist/* dist --force
+            git stash
 
   do_git_commit_dist:
     description: "Commit dist folders"
@@ -136,14 +140,12 @@ commands:
         default: "chore(all): add latest build artifacts"
     steps:
       - run:
-          name: "Clean existing dist folders"
-          command: rm -rf packages/*/dist dist
-      - run:
-          name: "Pop stashed dist folders"
-          command: git stash pop
-      - run:
-          name: "Add dist folders"
-          command: git add packages/\*/dist/* dist --force
+          name: "Overwrite existing with stashed dist folders"
+          command: |
+            rm -rf packages/*/dist dist
+            git add .
+            git stash pop
+            git add packages/\*/dist/* dist --force
       - run:
           name: "Commit dist folders"
           command: git commit -m "<< parameters.message >>"
@@ -158,11 +160,10 @@ commands:
         type: string
     steps:
       - run:
-          name: "Checkout << parameters.to >>"
-          command: git checkout << parameters.to >>
-      - run:
           name: "Merge << parameters.from >> into << parameters.to >>"
-          command: git merge << parameters.from >> --no-ff --no-edit -Xtheirs
+          command: |
+            git checkout << parameters.to >>
+            git merge << parameters.from >> --no-ff --no-edit -Xtheirs
 
   do_git_push:
     description: "Git push"
