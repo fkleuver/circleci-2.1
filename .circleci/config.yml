@@ -1,0 +1,7 @@
+version: 2.1
+
+jobs:
+  test1:
+    machine: true
+    steps:
+      - run: echo "hi"
