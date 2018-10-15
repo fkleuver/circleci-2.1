@@ -5,3 +5,8 @@ jobs:
     machine: true
     steps:
       - run: echo "hi"
+
+workflows:
+  build1:
+    jobs:
+      - test1
