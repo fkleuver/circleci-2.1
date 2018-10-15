@@ -1,0 +1,18 @@
+{
+  "lerna": "3.0.3",
+  "packages": [
+    "packages/aot",
+    "packages/debug",
+    "packages/jit",
+    "packages/kernel",
+    "packages/plugin-parcel",
+    "packages/plugin-requirejs",
+    "packages/plugin-svg",
+    "packages/plugin-webpack",
+    "packages/router",
+    "packages/runtime",
+    "packages/testing",
+    "packages/validation"
+  ],
+  "version": "0.3.0"
+}

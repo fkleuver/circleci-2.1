@@ -1,0 +1,39 @@
+// Place your settings in this file to overwrite default and user settings.
+{
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "tslint.nodePath": "node_modules/tslint/lib",
+  "html.suggest.angular1": false,
+  "html.suggest.ionic": false,
+  "html.format.endWithNewline": true,
+  "tslint.exclude": [
+    "**/.vscode/**",
+    "**/aurelia_project/**",
+    "**/coverage/**",
+    "**/allure-results/**",
+    "**/node_modules/**",
+    "**/scripts/**",
+    "**/test/**"
+  ],
+  "emmet.triggerExpansionOnTab": true,
+  "prettier.printWidth": 260,
+  "prettier.singleQuote": true,
+  "search.exclude": {
+    "**/.vscode": true,
+    "**/aurelia_project": true,
+    "**/coverage": true,
+    "**/allure-results": true,
+    "**/node_modules": true,
+    "**/scripts": true
+  },
+  "cSpell.words": [
+    "Constructable",
+    "Injectable",
+    "Renderable",
+    "Unbindable",
+    "attachables",
+    "bindables",
+    "containerless",
+    "renderables",
+    "requestor's"
+  ]
+}

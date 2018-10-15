@@ -1,0 +1,13 @@
+.idea
+.DS_STORE
+.rpt2_cache
+
+**/node_modules
+**/coverage
+**/dist
+**/*.tgz
+/test/**/coverage
+
+**/debug.log
+**/npm-debug.log
+**/lerna-debug.log
