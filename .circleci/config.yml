@@ -1,15 +1,135 @@
 version: 2.1
 
-commands:
-  cmd1:
-    parameters:
-      cmd1p1:
-        type: string
-        default: "Default"
-    steps:
-      - run: echo  "cmd1p1= << parameters.cmd1p1 >>"
 
+# - Scalar variables -
+scalar_1: &node_modules_cache_key aurelia-{{ .Branch }}-{{ checksum "package.json" }}-{{ checksum "package-lock.json" }}
+
+scalar_2: &working_dir ~/repo
+
+# - Map variables -
+map_1: &package_globs
+  paths:
+    - dist
+    - packages/*/dist
+    - packages/*/node_modules
+
+# - Executors -
+executors:
+
+  docker-circleci:
+    working_directory: *working_dir
+    docker:
+      - image: "circleci/node:10.12-stretch-browsers"
+
+  docker-aurelia:
+    working_directory: *working_dir
+    docker:
+      - image: "aureliaeffect/circleci-v2:latest"
+
+
+# - Commands -
+commands:
+
+  # first_* commands are initializers for jobs, they must come first
+  first_npm_install:
+    description: "Run npm install"
+    steps:
+      - checkout
+      - run:
+          name: "Run npm install"
+          command: npm ci --ignore-scripts
+
+  # implies first_npm_install
+  first_restore_cache:
+    description: "Restore node_modules from cache"
+    steps:
+      - checkout
+      - restore_cache:
+          key: *node_modules_cache_key
+
+  # implies first_restore_cache
+  first_attach_workspace:
+    description: "Attach persisted packages from workspace"
+    steps:
+      - first_restore_cache
+      - attach_workspace:
+          at: *working_dir
+
+  # first_* commands are finalizers for jobs, they must come last
+  last_save_cache:
+    description: "Save node_modules to cache"
+    steps:
+      - save_cache:
+          key: *node_modules_cache_key
+          paths:
+            - node_modules
+
+  last_persist_workspace:
+    description: "Persist packages to workspace"
+    steps:
+      - persist_to_workspace:
+          root: *working_dir
+          <<: *package_globs
+
+  # do_* commands are arbitrary commands that run in-between first and last
+  do_build_packages:
+    description: "Bootstrap and build packages"
+    steps:
+      - run:
+          name: "Bootstrap packages"
+          command: npm run bootstrap
+      - run:
+          name: "Build packages"
+          command: npm run build
+
+  do_bundle_packages:
+    description: "Bundle packages"
+    steps:
+      - run:
+          name: "Bundle packages"
+          command: npm run bundle:all
+
+  do_lint_packages:
+    description: "Lint packages"
+    steps:
+      - run:
+          name: "Lint packages"
+          command: npm run lint
+
+# - Jobs -
 jobs:
+
+  # Must come before any other job
+  install_root:
+    executor: docker-circleci
+    steps:
+      - first_npm_install
+      - last_save_cache
+
+  # Requires install_root
+  build_packages:
+    executor: docker-circleci
+    steps:
+      - first_restore_cache
+      - do_build_packages
+      - last_persist_workspace
+
+  # Requires install_root
+  lint_packages:
+    executor: docker-circleci
+    steps:
+      - first_restore_cache
+      - do_lint_packages
+
+  # Requires build_packages
+  bundle_packages:
+    executor: docker-circleci
+    steps:
+      - first_attach_workspace
+      - do_bundle_packages
+      - last_persist_workspace
+
+
   job1:
     machine: true
     parameters:
@@ -17,15 +137,23 @@ jobs:
         type: string
         default: "Default"
     steps:
-      - cmd1:
-          cmd1p1: "Overridden"
       - run: echo  "job1p1= << parameters.job1p1 >>"
 
+# - Workflows -
 workflows:
-  wf1:
+  lightweight_build_and_test:
     jobs:
-      - job1:
-          job1p1: "from wf1"
+      - install_root
+      - build_packages:
+          requires:
+            - install_root
+      - lint_packages:
+          requires:
+            - install_root
+      - bundle_packages:
+          requires:
+            - build_packages
+
   wf2:
     triggers:
       - schedule:
