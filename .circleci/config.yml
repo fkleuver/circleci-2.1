@@ -99,18 +99,18 @@ commands:
   do_set_git_config:
     description: "Set git config"
     parameters:
-      email:
+      user_email:
         type: string
         default: "fred@avurad.nl"
-      name:
+      user_name:
         type: string
         default: "fkleuver"
     steps:
       - run:
           name: "Set git config"
           command: |
-            git config --global user.email "<< parameters.email >>"
-            git config --global user.name "<< parameters.name >>"
+            git config --global user.email "<< parameters.user_email >>"
+            git config --global user.name "<< parameters.user_name >>"
 
   do_merge_push:
     description: "Merge and push"
