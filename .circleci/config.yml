@@ -288,6 +288,7 @@ jobs:
         default: "master"
       to:
         type: string
+        default: "dev"
     steps:
       - first_attach_workspace
       - do_git_set_config
@@ -401,7 +402,7 @@ workflows:
             - unit_test_chrome
             - unit_test_firefox
             - e2e_browserstack
-          from_branch: $CIRCLE_TAG
+          from: $CIRCLE_TAG
           to: release
           <<: *filter_only_tag
 
