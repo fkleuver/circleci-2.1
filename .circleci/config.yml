@@ -178,17 +178,17 @@ commands:
 
   do_git_merge:
     parameters:
-      frm:
+      from:
         type: string
         default: "master"
       to:
         type: string
     steps:
       - run:
-          name: "Merge << parameters.frm >> into << parameters.to >>"
+          name: "Merge << parameters.from >> into << parameters.to >>"
           command: |
             git checkout << parameters.to >>
-            git merge << parameters.frm >> --no-ff --no-edit -Xtheirs
+            git merge << parameters.from >> --no-ff --no-edit -Xtheirs
 
   do_git_stash_dist:
     steps:
@@ -283,7 +283,7 @@ jobs:
   merge_and_dist:
     executor: docker-circleci
     parameters:
-      frm:
+      from:
         type: string
       to:
         type: string
@@ -292,11 +292,11 @@ jobs:
       - do_git_set_config
       - do_git_stash_dist
       - do_git_merge:
-          frm: << parameters.frm >>
+          from: << parameters.from >>
           to: << parameters.to >>
       - do_git_commit_dist
       - do_git_push:
-          frm: << parameters.frm >>
+          from: << parameters.from >>
           to: << parameters.to >>
 
   unit_test:
@@ -391,7 +391,7 @@ workflows:
   #           - unit_test_chrome
   #           - unit_test_firefox
   #           - e2e_browserstack
-  #         frm: $CIRCLE_TAG
+  #         from: $CIRCLE_TAG
   #         to: release
   #         <<: *filter_only_tag
 
@@ -407,42 +407,42 @@ workflows:
   #         channel: latest
   #         <<: *filter_only_release
 
-  # # - triggered by schedules -
-  # # This workflow runs once per day on 0:00 UTC on the master branch
-  # build_test_deploy_dev:
-  #   triggers:
-  #     - schedule:
-  #         cron: "0 0 * * *"
-  #         <<: *filter_only_master
-  #   jobs:
-  #     - install_root
-  #     - unit_test:
-  #         name: unit_test_chrome
-  #     - unit_test:
-  #         name: unit_test_firefox
-  #         npm_command: "test-firefox"
-  #         coverage: false
-  #     - build_packages:
-  #         requires:
-  #           - install_root
-  #     - lint_packages:
-  #         requires:
-  #           - install_root
-  #     - bundle_packages:
-  #         requires:
-  #           - build_packages
-  #     - e2e_browserstack:
-  #         requires:
-  #           - bundle_packages
-  #     - merge_and_dist:
-  #         requires:
-  #           - lint_packages
-  #           - unit_test_chrome
-  #           - unit_test_firefox
-  #           - e2e_browserstack
-  #         frm: master
-  #         to: develop
-  #     - do_publish:
-  #         requires:
-  #           - merge_and_dist
-  #         channel: "dev"
+  # - triggered by schedules -
+  # This workflow runs once per day on 0:00 UTC on the master branch
+  build_test_deploy_dev:
+    triggers:
+      - schedule:
+          cron: "0 0 * * *"
+          <<: *filter_only_master
+    jobs:
+      - install_root
+      - unit_test:
+          name: unit_test_chrome
+      - unit_test:
+          name: unit_test_firefox
+          npm_command: "test-firefox"
+          coverage: false
+      - build_packages:
+          requires:
+            - install_root
+      - lint_packages:
+          requires:
+            - install_root
+      - bundle_packages:
+          requires:
+            - build_packages
+      - e2e_browserstack:
+          requires:
+            - bundle_packages
+      - merge_and_dist:
+          requires:
+            - lint_packages
+            - unit_test_chrome
+            - unit_test_firefox
+            - e2e_browserstack
+          from: master
+          to: develop
+      - do_publish:
+          requires:
+            - merge_and_dist
+          channel: "dev"
