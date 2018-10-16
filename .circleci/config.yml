@@ -13,12 +13,18 @@ map-1: &package_globs
     - packages/*/dist
     - packages/*/node_modules
 
-map-2: &ignore_develop_release
+map-2: &filter_ignore_develop_release
   filters:
     branches:
       ignore:
         - develop
         - release
+
+map-3: &filter_only_master
+  filters:
+    branches:
+      only:
+        - master
 
 # - Executors -
 executors:
@@ -246,41 +252,25 @@ workflows:
   build_test_dev:
     jobs:
       - install_root:
-          filters:
-            branches:
-              ignore:
-                - develop
-                - release
+          <<: *filter_ignore_develop_release
       - build_packages:
+          <<: *filter_ignore_develop_release
           requires:
             - install_root
-          filters:
-            branches:
-              ignore:
-                - develop
-                - release
       - lint_packages:
+          <<: *filter_ignore_develop_release
           requires:
             - install_root
-          filters:
-            branches:
-              ignore:
-                - develop
-                - release
       - bundle_packages:
+          <<: *filter_only_master
           requires:
             - build_packages
-          filters:
-            branches:
-              only: master
       - merge_and_dist:
+          <<: *filter_only_master
           to: develop
           requires:
             - lint_packages
             - bundle_packages
-          filters:
-            branches:
-              only: master
 
   # wf2:
   #   triggers:
