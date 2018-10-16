@@ -203,6 +203,27 @@ commands:
           name: "Run unit tests in firefox"
           command: npm run test-firefox
 
+  do_coverage_codecov:
+    description: "Run unit tests in firefox"
+    steps:
+      - run:
+          name: Process coverage for Codecov
+          command: |
+            codecov -f ~/repo/coverage/coverage-final.json
+          when: always
+
+  do_coverage_codeclimate:
+    description: "Run unit tests in firefox"
+    steps:
+      - run:
+          name: Process coverage results for Code Climate
+          command: |
+            ~/cc-test-reporter format-coverage ~/repo/coverage/lcov.info -t lcov -o ~/repo/coverage/cc-final.json
+            ~/cc-test-reporter upload-coverage -i ~/repo/coverage/cc-final.json
+          environment:
+            CC_TEST_REPORTER_ID: 29ad19bd108faacbd91b36265a5b5e891b404571ebf937f40655157877aa71a1
+          when: always
+
 # - Jobs -
 jobs:
 
@@ -268,19 +289,8 @@ jobs:
       - when:
           condition: << parameters.coverage >>
           steps:
-            # - run:
-            #     name: Process coverage results for Code Climate
-            #     command: |
-            #       ~/cc-test-reporter format-coverage ~/repo/coverage/lcov.info -t lcov -o ~/repo/coverage/cc-final.json
-            #       ~/cc-test-reporter upload-coverage -i ~/repo/coverage/cc-final.json
-            #     environment:
-            #       CC_TEST_REPORTER_ID: 29ad19bd108faacbd91b36265a5b5e891b404571ebf937f40655157877aa71a1
-            #     when: always
-            # - run:
-            #     name: Process coverage for Codecov
-            #     command: |
-            #       codecov -f ~/repo/coverage/coverage-final.json
-            #     when: always
+            - do_coverage_codeclimate
+            - do_coverage_codecov
             - store_test_results:
                 path: ~/repo/coverage
             - store_artifacts:
@@ -314,6 +324,7 @@ workflows:
           requires:
             - lint_packages
             - bundle_packages
+            - unit_test
 
   # wf2:
   #   triggers:
