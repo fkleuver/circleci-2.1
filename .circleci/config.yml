@@ -329,6 +329,12 @@ jobs:
       - first_attach_workspace
       - do_e2e_browserstack
 
+  publish_npm:
+    executor: docker-circleci
+    steps:
+      - do_publish
+
+
 # # # # # # # # # # # # # # # #
 # - Workflows -
 # # # # # # # # # # # # # # # #
