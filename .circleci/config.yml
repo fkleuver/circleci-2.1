@@ -178,17 +178,17 @@ commands:
 
   do_git_merge:
     parameters:
-      from:
+      from_branch:
         type: string
         default: "master"
-      to:
+      to_branch:
         type: string
     steps:
       - run:
-          name: "Merge << parameters.from >> into << parameters.to >>"
+          name: "Merge << parameters.from_branch >> into << parameters.to_branch >>"
           command: |
-            git checkout << parameters.to >>
-            git merge << parameters.from >> --no-ff --no-edit -Xtheirs
+            git checkout << parameters.to_branch >>
+            git merge << parameters.from_branch >> --no-ff --no-edit -Xtheirs
 
   do_git_stash_dist:
     steps:
@@ -222,12 +222,12 @@ commands:
 
   do_git_push:
     parameters:
-      to:
+      to_branch:
         type: string
     steps:
       - run:
-          name: "Push << parameters.to >>"
-          command: git push origin << parameters.to >>
+          name: "Push << parameters.to_branch >>"
+          command: git push origin << parameters.to_branch >>
 
   # - publish related -
   do_publish:
@@ -283,21 +283,21 @@ jobs:
   merge_and_dist:
     executor: docker-circleci
     parameters:
-      from:
+      from_branch:
         type: string
-      to:
+      to_branch:
         type: string
     steps:
       - first_attach_workspace
       - do_git_set_config
       - do_git_stash_dist
       - do_git_merge:
-          from: << parameters.from >>
-          to: << parameters.to >>
+          from_branch: << parameters.from_branch >>
+          to_branch: << parameters.to_branch >>
       - do_git_commit_dist
       - do_git_push:
-          from: << parameters.from >>
-          to: << parameters.to >>
+          from_branch: << parameters.from_branch >>
+          to_branch: << parameters.to_branch >>
 
   unit_test:
     executor: docker-aurelia
@@ -391,8 +391,8 @@ workflows:
   #           - unit_test_chrome
   #           - unit_test_firefox
   #           - e2e_browserstack
-  #         from: $CIRCLE_TAG
-  #         to: release
+  #         from_branch: $CIRCLE_TAG
+  #         to_branch: release
   #         <<: *filter_only_tag
 
   #   deploy_release:
@@ -440,8 +440,8 @@ workflows:
             - unit_test_chrome
             - unit_test_firefox
             - e2e_browserstack
-          from: master
-          to: develop
+          from_branch: "master"
+          to_branch: "develop"
       - do_publish:
           requires:
             - merge_and_dist
