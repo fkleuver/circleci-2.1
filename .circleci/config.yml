@@ -189,6 +189,20 @@ commands:
           name: "Push << parameters.to >>"
           command: git push origin << parameters.to >>
 
+  do_unit_tests_chrome:
+    description: "Run unit tests in chrome"
+    steps:
+      - run:
+          name: "Run unit tests in chrome"
+          command: npm run test
+
+  do_unit_tests_firefox:
+    description: "Run unit tests in firefox"
+    steps:
+      - run:
+          name: "Run unit tests in firefox"
+          command: npm run test-firefox
+
 # - Jobs -
 jobs:
 
@@ -238,14 +252,39 @@ jobs:
       - do_git_push:
           to: << parameters.to >>
 
-  job1:
-    machine: true
+  # Requires install_root
+  unit_test:
+    executor: docker-circleci
     parameters:
-      job1p1:
+      coverage:
+        type: boolean
+        default: true
+      npm_command:
         type: string
-        default: "Default"
+        default: "test"
     steps:
-      - run: echo  "job1p1= << parameters.job1p1 >>"
+      - first_restore_cache
+      - run: npm run << parameters.npm_command >>
+      - when:
+          condition: << parameters.coverage >>
+          steps:
+            # - run:
+            #     name: Process coverage results for Code Climate
+            #     command: |
+            #       ~/cc-test-reporter format-coverage ~/repo/coverage/lcov.info -t lcov -o ~/repo/coverage/cc-final.json
+            #       ~/cc-test-reporter upload-coverage -i ~/repo/coverage/cc-final.json
+            #     environment:
+            #       CC_TEST_REPORTER_ID: 29ad19bd108faacbd91b36265a5b5e891b404571ebf937f40655157877aa71a1
+            #     when: always
+            # - run:
+            #     name: Process coverage for Codecov
+            #     command: |
+            #       codecov -f ~/repo/coverage/coverage-final.json
+            #     when: always
+            - store_test_results:
+                path: ~/repo/coverage
+            - store_artifacts:
+                path: ~/repo/coverage
 
 # - Workflows -
 workflows:
@@ -258,6 +297,10 @@ workflows:
           requires:
             - install_root
       - lint_packages:
+          <<: *filter_ignore_develop_release
+          requires:
+            - install_root
+      - unit_test:
           <<: *filter_ignore_develop_release
           requires:
             - install_root
