@@ -283,10 +283,10 @@ jobs:
   merge_and_dist:
     executor: docker-circleci
     parameters:
-      from_branch:
+      from:
         type: string
         default: "master"
-      to_branch:
+      to:
         type: string
     steps:
       - first_attach_workspace
@@ -393,7 +393,7 @@ workflows:
   #           - unit_test_firefox
   #           - e2e_browserstack
   #         from_branch: $CIRCLE_TAG
-  #         to_branch: release
+  #         to: release
   #         <<: *filter_only_tag
 
   #   deploy_release:
@@ -441,7 +441,7 @@ workflows:
             - unit_test_chrome
             - unit_test_firefox
             - e2e_browserstack
-          to_branch: "develop"
+          to: "develop"
       - do_publish:
           requires:
             - merge_and_dist
