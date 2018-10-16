@@ -412,7 +412,7 @@ workflows:
       - request_publish_latest:
           type: approval
           <<: *filter_only_release
-      - do_publish:
+      - publish_npm:
           requires:
             - request_publish_latest
           channel: latest
