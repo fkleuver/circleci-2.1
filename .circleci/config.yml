@@ -178,17 +178,17 @@ commands:
 
   do_git_merge:
     parameters:
-      from:
+      frm:
         type: string
         default: "master"
       to:
         type: string
     steps:
       - run:
-          name: "Merge << parameters.from >> into << parameters.to >>"
+          name: "Merge << parameters.frm >> into << parameters.to >>"
           command: |
             git checkout << parameters.to >>
-            git merge << parameters.from >> --no-ff --no-edit -Xtheirs
+            git merge << parameters.frm >> --no-ff --no-edit -Xtheirs
 
   do_git_stash_dist:
     steps:
@@ -283,7 +283,7 @@ jobs:
   merge_and_dist:
     executor: docker-circleci
     parameters:
-      from:
+      frm:
         type: string
       to:
         type: string
@@ -292,11 +292,11 @@ jobs:
       - do_git_set_config
       - do_git_stash_dist
       - do_git_merge:
-          from: << parameters.from >>
+          frm: << parameters.frm >>
           to: << parameters.to >>
       - do_git_commit_dist
       - do_git_push:
-          from: << parameters.from >>
+          frm: << parameters.frm >>
           to: << parameters.to >>
 
   unit_test:
@@ -357,55 +357,55 @@ workflows:
           requires:
             - bundle_packages
 
-  # build_test_release:
-  #   jobs:
-  #     - install_root:
-  #         <<: *filter_only_tag
-  #     - unit_test:
-  #         name: unit_test_chrome
-  #         <<: *filter_only_tag
-  #     - unit_test:
-  #         name: unit_test_firefox
-  #         npm_command: "test-firefox"
-  #         coverage: false
-  #         <<: *filter_only_tag
-  #     - build_packages:
-  #         requires:
-  #           - install_root
-  #         <<: *filter_only_tag
-  #     - lint_packages:
-  #         requires:
-  #           - install_root
-  #         <<: *filter_only_tag
-  #     - bundle_packages:
-  #         requires:
-  #           - build_packages
-  #         <<: *filter_only_tag
-  #     - e2e_browserstack:
-  #         requires:
-  #           - bundle_packages
-  #         <<: *filter_only_tag
-  #     - merge_and_dist:
-  #         requires:
-  #           - lint_packages
-  #           - unit_test_chrome
-  #           - unit_test_firefox
-  #           - e2e_browserstack
-  #         from: $CIRCLE_TAG
-  #         to: release
-  #         <<: *filter_only_tag
+  build_test_release:
+    jobs:
+      - install_root:
+          <<: *filter_only_tag
+      - unit_test:
+          name: unit_test_chrome
+          <<: *filter_only_tag
+      - unit_test:
+          name: unit_test_firefox
+          npm_command: "test-firefox"
+          coverage: false
+          <<: *filter_only_tag
+      - build_packages:
+          requires:
+            - install_root
+          <<: *filter_only_tag
+      - lint_packages:
+          requires:
+            - install_root
+          <<: *filter_only_tag
+      - bundle_packages:
+          requires:
+            - build_packages
+          <<: *filter_only_tag
+      - e2e_browserstack:
+          requires:
+            - bundle_packages
+          <<: *filter_only_tag
+      - merge_and_dist:
+          requires:
+            - lint_packages
+            - unit_test_chrome
+            - unit_test_firefox
+            - e2e_browserstack
+          frm: $CIRCLE_TAG
+          to: release
+          <<: *filter_only_tag
 
-  #   deploy_release:
-  #     jobs:
-  #     # artifacts are already prepared and committed by the tag workflow, so only approval remains
-  #     - request_publish_latest:
-  #         type: approval
-  #         <<: *filter_only_release
-  #     - do_publish:
-  #         requires:
-  #           - request_publish_latest
-  #         channel: latest
-  #         <<: *filter_only_release
+    deploy_release:
+      jobs:
+      # artifacts are already prepared and committed by the tag workflow, so only approval remains
+      - request_publish_latest:
+          type: approval
+          <<: *filter_only_release
+      - do_publish:
+          requires:
+            - request_publish_latest
+          channel: latest
+          <<: *filter_only_release
 
   # - triggered by schedules -
   # This workflow runs once per day on 0:00 UTC on the master branch
@@ -440,7 +440,7 @@ workflows:
             - unit_test_chrome
             - unit_test_firefox
             - e2e_browserstack
-          from: master
+          frm: master
           to: develop
       - do_publish:
           requires:
