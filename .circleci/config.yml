@@ -149,7 +149,7 @@ commands:
   do_e2e_browserstack:
     steps:
       - run:
-        name: "Install e2e tests"
+          name: "Install e2e tests"
           command: |
             cd ./test/e2e
             npm ci
