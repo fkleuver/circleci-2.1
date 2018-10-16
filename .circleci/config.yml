@@ -254,6 +254,7 @@ jobs:
 
   # Requires install_root
   unit_test:
+    executor: docker-circleci
     parameters:
       coverage:
         type: boolean
