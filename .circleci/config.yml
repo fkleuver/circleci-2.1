@@ -367,7 +367,7 @@ workflows:
           requires:
             - bundle_packages
 
-  # build_test_release:
+  build_test_release:
     jobs:
       - install_root:
           <<: *filter_only_tag
