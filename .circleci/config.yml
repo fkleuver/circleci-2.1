@@ -408,15 +408,15 @@ workflows:
 
     deploy_release:
       jobs:
-      # artifacts are already prepared and committed by the tag workflow, so only approval remains
-      - request_publish_latest:
-          type: approval
-          <<: *filter_only_release
-      - do_publish:
-          requires:
-            - request_publish_latest
-          channel: latest
-          <<: *filter_only_release
+        # artifacts are already prepared and committed by the tag workflow, so only approval remains
+        - request_publish_latest:
+            type: approval
+            <<: *filter_only_release
+        - do_publish:
+            requires:
+              - request_publish_latest
+            channel: latest
+            <<: *filter_only_release
 
   # - triggered by schedules -
   # This workflow runs once per day on 0:00 UTC on the master branch
