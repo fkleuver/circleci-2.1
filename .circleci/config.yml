@@ -297,7 +297,6 @@ jobs:
           to_branch: << parameters.to >>
       - do_git_commit_dist
       - do_git_push:
-          from_branch: << parameters.from >>
           to_branch: << parameters.to >>
 
   unit_test:
