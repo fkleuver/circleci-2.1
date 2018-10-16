@@ -24,9 +24,13 @@ map-2: &ignore_develop_release
 executors:
 
   docker-circleci:
+    parameters:
+      node:
+        type: string
+        default: "10.12"
     working_directory: *working_dir
     docker:
-      - image: "circleci/node:10.12-stretch-browsers"
+      - image: "circleci/node:<< parameters.node >>-stretch-browsers"
 
   docker-aurelia:
     working_directory: *working_dir
@@ -107,16 +111,20 @@ commands:
     parameters:
       user_email:
         type: string
-        default: "fred@avurad.nl"
+        default: \"\"
       user_name:
         type: string
-        default: "fkleuver"
+        default: "circleci"
     steps:
       - run:
-          name: "Set git config"
-          command: |
-            git config --global user.email "<< parameters.user_email >>"
-            git config --global user.name "<< parameters.user_name >>"
+          name: "Set git config user.name"
+          command: git config --local user.name "<< parameters.user_name >>"
+      - when:
+          condition: << parameters.user_email >>
+          steps:
+            - run:
+                name: "Set git config user.email"
+                command: git config --local user.email "<< parameters.user_email >>"
 
   do_git_stash_dist:
     description: "Stash dist folders"
@@ -148,7 +156,7 @@ commands:
             git add packages/\*/dist/* dist --force
       - run:
           name: "Commit dist folders"
-          command: git commit -m "<< parameters.message >>"
+          command: git commit --allow-empty -m "<< parameters.message >>"
 
   do_git_merge:
     description: "Git merge"
