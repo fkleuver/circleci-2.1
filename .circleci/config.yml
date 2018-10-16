@@ -285,6 +285,7 @@ jobs:
     parameters:
       from_branch:
         type: string
+        default: "master"
       to_branch:
         type: string
     steps:
@@ -440,7 +441,6 @@ workflows:
             - unit_test_chrome
             - unit_test_firefox
             - e2e_browserstack
-          from_branch: "master"
           to_branch: "develop"
       - do_publish:
           requires:
