@@ -283,9 +283,9 @@ jobs:
   merge_and_dist:
     executor: docker-circleci
     parameters:
-      to:
-        type: string
       from:
+        type: string
+      to:
         type: string
     steps:
       - first_attach_workspace
@@ -387,8 +387,8 @@ workflows:
             - bundle_packages
       - merge_and_dist:
           <<: *filter_only_master
-          from: $CIRCLE_TAG
-          to: "release"
+          from: asdf
+          to: release
           requires:
             - lint_packages
             - unit_test_chrome
@@ -435,8 +435,8 @@ workflows:
           requires:
             - bundle_packages
       - merge_and_dist:
-          from: "master"
-          to: "develop"
+          from: master
+          to: develop
           requires:
             - lint_packages
             - unit_test_chrome
