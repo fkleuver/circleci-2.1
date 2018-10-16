@@ -1,12 +1,16 @@
 version: 2.1
 
 
+# # # # # # # # # # # # # # # #
 # - Scalar variables -
+# # # # # # # # # # # # # # # #
 scalar-1: &node_modules_cache_key aurelia-{{ .Branch }}-{{ checksum "package.json" }}-{{ checksum "package-lock.json" }}
 
 scalar-2: &working_dir ~/repo
 
+# # # # # # # # # # # # # # # #
 # - Map variables -
+# # # # # # # # # # # # # # # #
 map-1: &package_globs
   paths:
     - dist
@@ -26,7 +30,22 @@ map-3: &filter_only_master
       only:
         - master
 
+map-4: &filter_only_release
+  filters:
+    branches:
+      only:
+        - release
+
+map-5: &filter_only_tag
+  filters:
+    branches:
+      ignore: /.*/
+    tags:
+      only: /^v[0-9]+(\.[0-9]+)*$/
+
+# # # # # # # # # # # # # # # #
 # - Executors -
+# # # # # # # # # # # # # # # #
 executors:
 
   docker-circleci:
@@ -44,12 +63,13 @@ executors:
       - image: "aureliaeffect/circleci-v2:latest"
 
 
+# # # # # # # # # # # # # # # #
 # - Commands -
+# # # # # # # # # # # # # # # #
 commands:
 
   # first_* commands are initializers for jobs, they must come first
   first_npm_install:
-    description: "Run npm install"
     steps:
       - checkout
       - run:
@@ -58,7 +78,6 @@ commands:
 
   # implies first_npm_install
   first_restore_cache:
-    description: "Restore node_modules from cache"
     steps:
       - checkout
       - restore_cache:
@@ -66,7 +85,6 @@ commands:
 
   # implies first_restore_cache
   first_attach_workspace:
-    description: "Attach persisted packages from workspace"
     steps:
       - first_restore_cache
       - attach_workspace:
@@ -74,7 +92,6 @@ commands:
 
   # first_* commands are finalizers for jobs, they must come last
   last_save_cache:
-    description: "Save node_modules to cache"
     steps:
       - save_cache:
           key: *node_modules_cache_key
@@ -82,15 +99,14 @@ commands:
             - node_modules
 
   last_persist_workspace:
-    description: "Persist packages to workspace"
     steps:
       - persist_to_workspace:
           root: *working_dir
           <<: *package_globs
 
   # do_* commands are arbitrary commands that run in-between first and last
+  # - build related -
   do_build_packages:
-    description: "Bootstrap and build packages"
     steps:
       - run:
           name: "Bootstrap and build packages"
@@ -99,41 +115,82 @@ commands:
             npm run build
 
   do_bundle_packages:
-    description: "Bundle packages"
     steps:
       - run:
           name: "Bundle packages"
           command: npm run bundle:all
 
   do_lint_packages:
-    description: "Lint packages"
     steps:
       - run:
           name: "Lint packages"
           command: npm run lint
 
+  # - test related -
+  do_coverage_codecov:
+    steps:
+      - run:
+          name: "Process coverage for Codecov"
+          command: |
+            codecov -f ~/repo/coverage/coverage-final.json
+          when: always
+
+  do_coverage_codeclimate:
+    steps:
+      - run:
+          name: "Process coverage results for Code Climate"
+          command: |
+            ~/cc-test-reporter format-coverage ~/repo/coverage/lcov.info -t lcov -o ~/repo/coverage/cc-final.json
+            ~/cc-test-reporter upload-coverage -i ~/repo/coverage/cc-final.json
+          environment:
+            CC_TEST_REPORTER_ID: 29ad19bd108faacbd91b36265a5b5e891b404571ebf937f40655157877aa71a1
+          when: always
+
+  do_e2e_browserstack:
+    steps:
+      - run:
+        name: "Install e2e tests"
+          command: |
+            cd ./test/e2e
+            npm ci
+            npm run build
+      - run:
+          name: "Serve e2e app in the background"
+          background: true
+          command: |
+            cd ./test/e2e
+            npm run start
+      - run:
+          name: "Run e2e tests"
+          command: |
+            cd ./test/e2e
+            npm run e2e
+
+  # - git related -
   do_git_set_config:
-    description: "Set git config"
-    parameters:
-      user_email:
-        type: string
-        default: \"\"
-      user_name:
-        type: string
-        default: "circleci"
     steps:
       - run:
           name: "Set git config user.name"
-          command: git config --local user.name "<< parameters.user_name >>"
-      - when:
-          condition: << parameters.user_email >>
-          steps:
-            - run:
-                name: "Set git config user.email"
-                command: git config --local user.email "<< parameters.user_email >>"
+          command: git config --local user.name "aurelia@bluespire.com"
+      - run:
+          name: "Set git config user.email"
+          command: git config --local user.email "AureliaEffect"
+
+  do_git_merge:
+    parameters:
+      from:
+        type: string
+        default: "master"
+      to:
+        type: string
+    steps:
+      - run:
+          name: "Merge << parameters.from >> into << parameters.to >>"
+          command: |
+            git checkout << parameters.to >>
+            git merge << parameters.from >> --no-ff --no-edit -Xtheirs
 
   do_git_stash_dist:
-    description: "Stash dist folders"
     steps:
       - run:
           name: "Cleanup unwanted files"
@@ -147,7 +204,6 @@ commands:
             git stash
 
   do_git_commit_dist:
-    description: "Commit dist folders"
     parameters:
       message:
         type: string
@@ -164,23 +220,7 @@ commands:
           name: "Commit dist folders"
           command: git commit --allow-empty -m "<< parameters.message >>"
 
-  do_git_merge:
-    description: "Git merge"
-    parameters:
-      from:
-        type: string
-        default: "master"
-      to:
-        type: string
-    steps:
-      - run:
-          name: "Merge << parameters.from >> into << parameters.to >>"
-          command: |
-            git checkout << parameters.to >>
-            git merge << parameters.from >> --no-ff --no-edit -Xtheirs
-
   do_git_push:
-    description: "Git push"
     parameters:
       to:
         type: string
@@ -189,42 +229,24 @@ commands:
           name: "Push << parameters.to >>"
           command: git push origin << parameters.to >>
 
-  do_unit_tests_chrome:
-    description: "Run unit tests in chrome"
+  # - publish related -
+  do_publish:
+    parameters:
+      channel:
+        type: string
     steps:
       - run:
-          name: "Run unit tests in chrome"
-          command: npm run test
-
-  do_unit_tests_firefox:
-    description: "Run unit tests in firefox"
-    steps:
+          name: "Authenticate with registry"
+          command: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> ~/.npmrc
       - run:
-          name: "Run unit tests in firefox"
-          command: npm run test-firefox
-
-  do_coverage_codecov:
-    description: "Run unit tests in firefox"
-    steps:
-      - run:
-          name: Process coverage for Codecov
+          name: "Publish to @<< parameters.channel >>"
           command: |
-            codecov -f ~/repo/coverage/coverage-final.json
-          when: always
+            npm run publish:<< parameters.channel >>
+            npm run upload-dist:<< parameters.channel >>
 
-  do_coverage_codeclimate:
-    description: "Run unit tests in firefox"
-    steps:
-      - run:
-          name: Process coverage results for Code Climate
-          command: |
-            ~/cc-test-reporter format-coverage ~/repo/coverage/lcov.info -t lcov -o ~/repo/coverage/cc-final.json
-            ~/cc-test-reporter upload-coverage -i ~/repo/coverage/cc-final.json
-          environment:
-            CC_TEST_REPORTER_ID: 29ad19bd108faacbd91b36265a5b5e891b404571ebf937f40655157877aa71a1
-          when: always
-
+# # # # # # # # # # # # # # # #
 # - Jobs -
+# # # # # # # # # # # # # # # #
 jobs:
 
   # Must come before any other job
@@ -263,19 +285,22 @@ jobs:
     parameters:
       to:
         type: string
+      from:
+        type: string
     steps:
       - first_attach_workspace
       - do_git_set_config
       - do_git_stash_dist
       - do_git_merge:
+          from: << parameters.from >>
           to: << parameters.to >>
       - do_git_commit_dist
       - do_git_push:
+          from: << parameters.from >>
           to: << parameters.to >>
 
-  # Requires install_root
   unit_test:
-    executor: docker-circleci
+    executor: docker-aurelia
     parameters:
       coverage:
         type: boolean
@@ -284,7 +309,8 @@ jobs:
         type: string
         default: "test"
     steps:
-      - first_restore_cache
+      - first_npm_install
+      # can't safely restore cache here because this uses a different executor with a different node version
       - run: npm run << parameters.npm_command >>
       - when:
           condition: << parameters.coverage >>
@@ -296,11 +322,23 @@ jobs:
             - store_artifacts:
                 path: ~/repo/coverage
 
+  # Requires bundle_packages
+  e2e_browserstack:
+    executor: docker-circleci
+    steps:
+      - first_attach_workspace
+      - do_e2e_browserstack
+
+# # # # # # # # # # # # # # # #
 # - Workflows -
+# # # # # # # # # # # # # # # #
 workflows:
+  # - triggered by commits -
   build_test_dev:
     jobs:
       - install_root:
+          <<: *filter_ignore_develop_release
+      - unit_test:
           <<: *filter_ignore_develop_release
       - build_packages:
           <<: *filter_ignore_develop_release
@@ -310,31 +348,101 @@ workflows:
           <<: *filter_ignore_develop_release
           requires:
             - install_root
-      - unit_test:
-          <<: *filter_ignore_develop_release
-          requires:
-            - install_root
       - bundle_packages:
           <<: *filter_only_master
           requires:
             - build_packages
+      - e2e_browserstack:
+          <<: *filter_only_master
+          requires:
+            - bundle_packages
+
+  build_test_release:
+    jobs:
+      - install_root:
+          <<: *filter_only_tag
+      - unit_test:
+          <<: *filter_only_tag
+          name: unit_test_chrome
+      - unit_test:
+          <<: *filter_only_tag
+          name: unit_test_firefox
+          npm_command: "test-firefox"
+          coverage: false
+      - build_packages:
+          <<: *filter_only_tag
+          requires:
+            - install_root
+      - lint_packages:
+          <<: *filter_only_tag
+          requires:
+            - install_root
+      - bundle_packages:
+          <<: *filter_only_tag
+          requires:
+            - build_packages
+      - e2e_browserstack:
+          <<: *filter_only_tag
+          requires:
+            - bundle_packages
       - merge_and_dist:
           <<: *filter_only_master
-          to: develop
+          from: "$CIRCLE_TAG"
+          to: "release"
           requires:
             - lint_packages
+            - unit_test_chrome
+            - unit_test_firefox
+            - e2e_browserstack
+
+    deploy_release:
+      jobs:
+      # artifacts are already prepared and committed by the tag workflow, so only approval remains
+      - request_publish_latest:
+          <<: *filter_only_release
+          type: approval
+      - do_publish:
+          <<: *filter_only_release
+          channel: "latest"
+          requires:
+            - request_publish_latest
+
+  # - triggered by schedules -
+  # This workflow runs once per day on 0:00 UTC on the master branch
+  build_test_deploy_dev:
+    triggers:
+      - schedule:
+          cron: "0 0 * * *"
+          <<: *filter_only_master
+    jobs:
+      - install_root
+      - unit_test:
+          name: unit_test_chrome
+      - unit_test:
+          name: unit_test_firefox
+          npm_command: "test-firefox"
+          coverage: false
+      - build_packages
+          requires:
+            - install_root
+      - lint_packages
+          requires:
+            - install_root
+      - bundle_packages
+          requires:
+            - build_packages
+      - e2e_browserstack:
+          requires:
             - bundle_packages
-            - unit_test
-
-  # wf2:
-  #   triggers:
-  #     - schedule:
-  #         cron: "0 * * * *"
-  #         filters:
-  #           branches:
-  #             only:
-  #               - master
-
-  #   jobs:
-  #     - job1:
-  #         job1p1: "from wf2"
+      - merge_and_dist:
+          from: "master"
+          to: "develop"
+          requires:
+            - lint_packages
+            - unit_test_chrome
+            - unit_test_firefox
+            - e2e_browserstack
+      - do_publish:
+          channel: "dev"
+          requires:
+            - merge_and_dist
