@@ -331,8 +331,12 @@ jobs:
 
   publish_npm:
     executor: docker-circleci
+    parameters:
+      channel:
+        type: string
     steps:
       - do_publish
+          channel: << parameters.channel >>
 
 
 # # # # # # # # # # # # # # # #
