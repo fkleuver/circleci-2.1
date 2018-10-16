@@ -451,7 +451,7 @@ workflows:
             - unit_test_firefox
             - e2e_browserstack
           to: "develop"
-      - do_publish:
+      - publish_npm:
           requires:
             - merge_and_dist
           channel: "dev"
