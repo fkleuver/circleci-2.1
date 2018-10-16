@@ -386,7 +386,7 @@ workflows:
           requires:
             - bundle_packages
       - merge_and_dist:
-          <<: *filter_only_master
+          <<: *filter_only_tag
          # from: asdf
           to: release
           requires:
