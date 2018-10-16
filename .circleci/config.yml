@@ -422,13 +422,13 @@ workflows:
           name: unit_test_firefox
           npm_command: "test-firefox"
           coverage: false
-      - build_packages
+      - build_packages:
           requires:
             - install_root
-      - lint_packages
+      - lint_packages:
           requires:
             - install_root
-      - bundle_packages
+      - bundle_packages:
           requires:
             - build_packages
       - e2e_browserstack:
