@@ -335,7 +335,7 @@ jobs:
       channel:
         type: string
     steps:
-      - do_publish
+      - do_publish:
           channel: << parameters.channel >>
 
 
