@@ -115,7 +115,6 @@ commands:
       - run:
           name: "Set git config user.name"
           command: git config --local user.name "<< parameters.user_name >>"
-    steps:
       - when:
           condition: << parameters.user_email >>
           steps:
