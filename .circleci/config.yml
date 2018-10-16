@@ -387,7 +387,7 @@ workflows:
             - bundle_packages
       - merge_and_dist:
           <<: *filter_only_tag
-         # from: asdf
+          from: asdf
           to: release
           requires:
             - lint_packages
